@@ -17,13 +17,13 @@ import Testing
 @testable import Logger_Dependencies
 
 @Suite
-struct `Dependency.Values logger Tests` {
+struct DependencyValuesLoggerTests {
   @Suite struct Unit {}
-  @Suite struct `Edge Case` {}
+  @Suite struct EdgeCase {}
   @Suite struct Integration {}
 }
 
-extension `Dependency.Values logger Tests`.Unit {
+extension DependencyValuesLoggerTests.Unit {
   @Test
   func `test context resolves a no-op logger`() {
     withDependencies(mode: .test) { _ in
@@ -37,7 +37,7 @@ extension `Dependency.Values logger Tests`.Unit {
   }
 }
 
-extension `Dependency.Values logger Tests`.`Edge Case` {
+extension DependencyValuesLoggerTests.EdgeCase {
   #if DEBUG
     @Test
     func `missing live registration triggers the dependency tripwire`() async {
@@ -52,7 +52,7 @@ extension `Dependency.Values logger Tests`.`Edge Case` {
   #endif
 }
 
-extension `Dependency.Values logger Tests`.Integration {
+extension DependencyValuesLoggerTests.Integration {
   @Test
   func `explicit live override supplies the registered logger`() {
     let registered = Logger(label: "application") { _ in

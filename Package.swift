@@ -21,7 +21,7 @@ let package = Package(
         .iOS(.v26),
         .tvOS(.v26),
         .watchOS(.v26),
-        .visionOS(.v26),
+        .visionOS(.v26)
     ],
     products: [
         .library(
@@ -31,14 +31,14 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-log.git", from: "1.6.4"),
-        .package(url: "https://github.com/swift-foundations/swift-dependencies.git", branch: "main"),
+        .package(url: "https://github.com/swift-foundations/swift-dependencies.git", branch: "main")
     ],
     targets: [
         .target(
             name: "Logger Dependencies",
             dependencies: [
                 .product(name: "Logging", package: "swift-log"),
-                .product(name: "Dependencies", package: "swift-dependencies"),
+                .product(name: "Dependencies", package: "swift-dependencies")
             ]
         ),
         .testTarget(
@@ -46,9 +46,9 @@ let package = Package(
             dependencies: [
                 "Logger Dependencies",
                 .product(name: "Dependencies Test Support", package: "swift-dependencies"),
-                .product(name: "Logging", package: "swift-log"),
+                .product(name: "Logging", package: "swift-log")
             ]
-        ),
+        )
     ],
     swiftLanguageModes: [.v6]
 )
@@ -64,7 +64,7 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableExperimentalFeature("Lifetimes"),
         .enableExperimentalFeature("SuppressedAssociatedTypes"),
         .enableUpcomingFeature("InferIsolatedConformances"),
-        .enableUpcomingFeature("LifetimeDependence"),
+        .enableUpcomingFeature("LifetimeDependence")
     ]
 
     let package: [SwiftSetting] = []
