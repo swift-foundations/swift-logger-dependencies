@@ -18,53 +18,53 @@ import Testing
 
 @Suite
 struct `Dependency Values logger Tests` {
-  @Suite struct Unit {}
-  @Suite struct `Edge Case` {}
-  @Suite struct Integration {}
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
 }
 
 extension `Dependency Values logger Tests`.Unit {
-  @Test
-  func `test context resolves a no-op logger`() {
-    withDependencies(mode: .test) { _ in
-    } operation: {
-      @Dependency(\.logger) var logger
+    @Test
+    func `test context resolves a no-op logger`() {
+        withDependencies(mode: .test) { _ in
+        } operation: {
+            @Dependency(\.logger) var logger
 
-      #expect(logger.label == "swift-logger-dependencies")
-      #expect(logger.logLevel == .critical)
-      logger.critical("discarded")
+            #expect(logger.label == "swift-logger-dependencies")
+            #expect(logger.logLevel == .critical)
+            logger.critical("discarded")
+        }
     }
-  }
 }
 
 extension `Dependency Values logger Tests`.`Edge Case` {
-  #if DEBUG
-    @Test
-    func `missing live registration triggers the dependency tripwire`() async {
-      await #expect(processExitsWith: .failure) {
-        withDependencies(mode: .live) { _ in
-        } operation: {
-          @Dependency(\.logger) var logger
-          _ = logger
+    #if DEBUG
+        @Test
+        func `missing live registration triggers the dependency tripwire`() async {
+            await #expect(processExitsWith: .failure) {
+                withDependencies(mode: .live) { _ in
+                } operation: {
+                    @Dependency(\.logger) var logger
+                    _ = logger
+                }
+            }
         }
-      }
-    }
-  #endif
+    #endif
 }
 
 extension `Dependency Values logger Tests`.Integration {
-  @Test
-  func `explicit live override supplies the registered logger`() {
-    let registered = Logger(label: "application") { _ in
-      SwiftLogNoOpLogHandler()
-    }
+    @Test
+    func `explicit live override supplies the registered logger`() {
+        let registered = Logger(label: "application") { _ in
+            SwiftLogNoOpLogHandler()
+        }
 
-    withDependencies(mode: .live) {
-      $0.logger = registered
-    } operation: {
-      @Dependency(\.logger) var logger
+        withDependencies(mode: .live) {
+            $0.logger = registered
+        } operation: {
+            @Dependency(\.logger) var logger
 
-      #expect(logger.label == "application")
+            #expect(logger.label == "application")
+        }
     }
-  }
 }
