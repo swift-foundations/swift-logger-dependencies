@@ -1,4 +1,4 @@
-// swift-tools-version: 6.3.3
+// swift-tools-version: 6.4
 
 // ===----------------------------------------------------------------------===//
 //
@@ -17,11 +17,11 @@ import PackageDescription
 let package = Package(
     name: "swift-logger-dependencies",
     platforms: [
-        .macOS("27"),
-        .iOS("27"),
-        .tvOS("27"),
-        .watchOS("27"),
-        .visionOS("27")
+        .macOS(.v27),
+        .iOS(.v27),
+        .tvOS(.v27),
+        .watchOS(.v27),
+        .visionOS(.v27),
     ],
     products: [
         .library(
@@ -31,14 +31,17 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-log.git", from: "1.6.4"),
-        .package(url: "https://github.com/swift-foundations/swift-dependencies.git", branch: "main")
+        .package(
+            url: "https://github.com/swift-foundations/swift-dependencies.git",
+            branch: "main"
+        ),
     ],
     targets: [
         .target(
             name: "Logger Dependencies",
             dependencies: [
                 .product(name: "Logging", package: "swift-log"),
-                .product(name: "Dependencies", package: "swift-dependencies")
+                .product(name: "Dependencies", package: "swift-dependencies"),
             ]
         ),
         .testTarget(
@@ -46,9 +49,9 @@ let package = Package(
             dependencies: [
                 "Logger Dependencies",
                 .product(name: "Dependencies Test Support", package: "swift-dependencies"),
-                .product(name: "Logging", package: "swift-log")
+                .product(name: "Logging", package: "swift-log"),
             ]
-        )
+        ),
     ],
     swiftLanguageModes: [.v6]
 )
@@ -64,7 +67,7 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableExperimentalFeature("Lifetimes"),
         .enableExperimentalFeature("SuppressedAssociatedTypes"),
         .enableUpcomingFeature("InferIsolatedConformances"),
-        .enableUpcomingFeature("LifetimeDependence")
+        .enableUpcomingFeature("LifetimeDependence"),
     ]
 
     let package: [SwiftSetting] = []
